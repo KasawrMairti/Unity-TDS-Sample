@@ -1643,7 +1643,7 @@ Transform:
   m_GameObject: {fileID: 7538774996470802382}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19, y: 0.7, z: 0}
+  m_LocalPosition: {x: 16.5, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1799,7 +1799,7 @@ Transform:
   m_GameObject: {fileID: 4016841666269400645}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.900002, y: 0.1, z: 0}
+  m_LocalPosition: {x: -21.425919, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1817,6 +1817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07264b39a160a664c88e9af4288ff776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextImage: {fileID: 3653011752595229969}
 --- !u!212 &8229903212660275146
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1881,6 +1882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07264b39a160a664c88e9af4288ff776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextImage: {fileID: 437466680617788831}
 --- !u!4 &8969240201283377900
 Transform:
   m_ObjectHideFlags: 0
@@ -1890,7 +1892,7 @@ Transform:
   m_GameObject: {fileID: 3708198231586112282}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19, y: 0.1, z: 0}
+  m_LocalPosition: {x: 16.5, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1908,6 +1910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07264b39a160a664c88e9af4288ff776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextImage: {fileID: 2130238397445861130}
 --- !u!4 &9022051765434283339
 Transform:
   m_ObjectHideFlags: 0
@@ -1917,7 +1920,7 @@ Transform:
   m_GameObject: {fileID: 3077569642042698786}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19, y: 0.7, z: 0}
+  m_LocalPosition: {x: -21.425919, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1935,6 +1938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07264b39a160a664c88e9af4288ff776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextImage: {fileID: 8229903212660275146}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
