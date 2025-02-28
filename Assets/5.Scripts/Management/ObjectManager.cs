@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectManager : MonoBehaviour
+public class ObjectManager : GameManager<ObjectManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Player player { get; private set; }
+    public PlayerBoxPool playerBoxs { get; private set; }
+    public ZombieSpawn zombies { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void SetPlayer(Player player) { this.player = player; }
+    public void SetPlayerBoxPool(PlayerBoxPool playerBoxPool) { this.playerBoxs = playerBoxPool; }
+    public void SetZombieSpawn(ZombieSpawn zombieSpawn) { this.zombies = zombieSpawn; }
 }
