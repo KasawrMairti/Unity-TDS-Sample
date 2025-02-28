@@ -17,6 +17,11 @@ public class ZombieSpawn : MonoBehaviour
         ObjectManager.Instance.SetZombieSpawn(this);
     }
 
+    private void Start()
+    {
+        Initialize();
+    }
+
     private void Update()
     {
         SpawnEvent();
@@ -36,17 +41,14 @@ public class ZombieSpawn : MonoBehaviour
         else spawnTimeCur += Time.deltaTime;
     }
 
-    public Zombie zombieActive()
+    private void Initialize()
     {
-        Zombie zombie;
-
-        foreach (Zombie obj in zombies)
+        for (int i = 0; i < 20; i++)
         {
-            zombie = obj;
-
-            return zombie;
+            Zombie zombie = Instantiate(zombiePrefabs, transform.position, Quaternion.identity).GetComponent<Zombie>();
+            zombie.transform.parent = transform;
+            zombies.Add(zombie);
+            zombie.gameObject.SetActive(false);
         }
-
-        return null;
     }
 }
