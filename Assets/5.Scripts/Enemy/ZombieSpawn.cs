@@ -15,6 +15,8 @@ public class ZombieSpawn : MonoBehaviour
     private void Awake()
     {
         ObjectManager.Instance.SetZombieSpawn(this);
+
+        zombies = new List<Zombie>();
     }
 
     private void Start()
@@ -34,9 +36,7 @@ public class ZombieSpawn : MonoBehaviour
             spawnTime = Random.Range(spawnTimeMin, spawnTimeMax);
             spawnTimeCur = 0.0f;
 
-            Zombie zombie = Instantiate(zombiePrefabs, transform.position, Quaternion.identity).GetComponent<Zombie>();
-            zombie.transform.parent = transform;
-            zombies.Add(zombie);
+            ReturnToPool();
         }
         else spawnTimeCur += Time.deltaTime;
     }
@@ -50,5 +50,25 @@ public class ZombieSpawn : MonoBehaviour
             zombies.Add(zombie);
             zombie.gameObject.SetActive(false);
         }
+    }
+
+    private Zombie ReturnToPool()
+    {
+        foreach (Zombie zombieobj in zombies)
+        {
+            if (!zombieobj.gameObject.activeSelf)
+            {
+                zombieobj.transform.position = transform.position;
+                zombieobj.gameObject.SetActive(true);
+
+                return zombieobj;
+            }
+        }
+
+        Zombie zombie = Instantiate(zombiePrefabs, transform.position, Quaternion.identity).GetComponent<Zombie>();
+        zombie.transform.parent = transform;
+        zombies.Add(zombie);
+
+        return zombie;
     }
 }

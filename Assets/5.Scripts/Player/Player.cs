@@ -12,6 +12,6 @@ public class Player : MonoBehaviour, IDamagable
 
     public void Damaged()
     {
-        throw new System.NotImplementedException();
+        
     }
 }
