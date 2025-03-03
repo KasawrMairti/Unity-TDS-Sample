@@ -16,6 +16,7 @@ public class Zombie : MonoBehaviour, IDamagable
     private float jumpCooltimeMax = 1.0f;
     private float jumpCooltime = 0.0f;
     private bool playerCollision = false;
+    private Vector3 lastAtkPos = Vector3.zero;
 
     private void Awake()
     {
@@ -57,7 +58,7 @@ public class Zombie : MonoBehaviour, IDamagable
         gameObject.layer = LayerMask.NameToLayer("Default");
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 0.55f, LayerMask.GetMask(maskCur));
         gameObject.layer = LayerMask.NameToLayer(maskCur);
-        if (hit.collider != null && hit.collider.CompareTag("Zombie"))
+        if (hit.collider != null && (hit.collider.CompareTag("Zombie") || hit.collider.CompareTag("Truck")))
         {
             if (jumpCooltime > jumpCooltimeMax)
             {
@@ -71,10 +72,17 @@ public class Zombie : MonoBehaviour, IDamagable
 
     private void OnAttack()
     {
-        if (targetObj.TryGetComponent<IDamagable>(out var obj))
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 0.55f, LayerMask.GetMask("Hero"));
+        if (hit.collider != null && hit.collider.CompareTag("Hero"))
         {
-            obj.Damaged(1.0f);
+            if (hit.collider.TryGetComponent<IDamagable>(out var obj))
+            {
+                obj.Damaged(1.0f);
+
+                UIManager.Instance.TextEnable(lastAtkPos, Random.Range(1.0f, 2.0f).ToString("F1"));
+            }
         }
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -83,12 +91,14 @@ public class Zombie : MonoBehaviour, IDamagable
         {
             playerCollision = true;
             targetObj = collision.gameObject;
+            lastAtkPos = collision.contacts[0].point;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Hero")) playerCollision = false;
+        if (collision.transform.CompareTag("Hero")) 
+            playerCollision = false;
     }
 
     public void Damaged(float damaged)

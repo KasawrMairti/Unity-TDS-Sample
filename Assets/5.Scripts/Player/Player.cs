@@ -1,17 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IDamagable
 {
+    [SerializeField] private GameObject hpPanel;
+    [SerializeField] private Slider slider;
+
+    [SerializeField] private float hpMax;
+    private float hp;
 
     private void Awake()
     {
         ObjectManager.Instance.SetPlayer(this);
+
+        hp = hpMax;
     }
 
     public void Damaged(float damaged)
     {
-        
+        if (!hpPanel.activeSelf)
+            hpPanel.SetActive(true);
+
+        hp -= damaged;
+
+        if (hp > 0) slider.value = hp / hpMax;
+        else
+        {
+            slider.value = 0.0f;
+
+            gameObject.SetActive(false);
+        }
     }
 }

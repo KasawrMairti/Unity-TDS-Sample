@@ -15,7 +15,6 @@ public class PlayerBox : MonoBehaviour, IDamagable
     private void Awake()
     {
         hp = hpMax;
-        slider.value = hp / hpMax;
     }
 
     public void Damaged(float damaged)
