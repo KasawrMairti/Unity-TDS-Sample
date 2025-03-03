@@ -3,12 +3,20 @@ using UnityEngine;
 public class Zombie : MonoBehaviour, IDamagable
 {
     [SerializeField] private float moveSpeed = 1.0f;
+    [SerializeField] private float jumpSpeed = 5.0f;
+    private string maskCur = "";
     private int lineCur;
 
     private Rigidbody2D rigidBody;
     private Animator animator;
 
     // Zombie Status
+    private bool zombieCollision = false;
+    private float jumpCooltimeMax = 1.0f;
+    private float jumpCooltime = 0.0f;
+    private bool playerCollision = false;
+    private float attackCooltimeMax = 2.0f;
+    private float attackCooltime = 0.0f;
 
     private void Awake()
     {
@@ -20,30 +28,53 @@ public class Zombie : MonoBehaviour, IDamagable
     {
         lineCur = Random.Range(0, 3);
 
-        if (lineCur == 0) gameObject.layer = LayerMask.NameToLayer("FirstLine");
-        else if (lineCur == 1) gameObject.layer = LayerMask.NameToLayer("SecondLine");
-        else if (lineCur == 2) gameObject.layer = LayerMask.NameToLayer("ThirdLine");
+        if (lineCur == 0) maskCur = "FirstLine";
+        else if (lineCur == 1) maskCur = "SecondLine";
+        else if (lineCur == 2) maskCur = "ThirdLine";
+
+        gameObject.layer = LayerMask.NameToLayer(maskCur);
     }
 
     private void FixedUpdate()
     {
         Move();
+
+        Jump();
     }
 
     private void Move()
     {
         transform.position = new(transform.position.x, transform.position.y, transform.position.y / 100f);
 
-        rigidBody.AddForce(Vector2.left * moveSpeed, ForceMode2D.Force);
-        rigidBody.velocity = rigidBody.velocity.x < -moveSpeed ? rigidBody.velocity : new(-moveSpeed, rigidBody.velocity.y);
+        rigidBody.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
+        rigidBody.velocity = new Vector2(Mathf.Max(-moveSpeed, rigidBody.velocity.x), rigidBody.velocity.y);
+    }
+
+    private void Jump()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 0.55f, LayerMask.GetMask(maskCur));
+        gameObject.layer = LayerMask.NameToLayer(maskCur);
+        if (hit.collider != null && hit.collider.CompareTag("Zombie"))
+        {
+            if (jumpCooltime > jumpCooltimeMax)
+            {
+                jumpCooltime = 0.0f;
+
+                rigidBody.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            }
+            else jumpCooltime += Time.fixedDeltaTime;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Zombie"))
-        {
+        if (collision.transform.CompareTag("Player")) playerCollision = true;
+    }
 
-        }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Player")) playerCollision = false;
     }
 
     public void Damaged()
