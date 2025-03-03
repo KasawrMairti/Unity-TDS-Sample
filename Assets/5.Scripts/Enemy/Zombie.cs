@@ -25,12 +25,13 @@ public class Zombie : MonoBehaviour, IDamagable
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-        hp = hpMax;
     }
 
     private void OnEnable()
     {
+        playerCollision = false;
+        hp = hpMax;
+
         lineCur = Random.Range(0, 3);
 
         if (lineCur == 0) maskCur = "FirstLine";
