@@ -18,10 +18,15 @@ public class Zombie : MonoBehaviour, IDamagable
     private bool playerCollision = false;
     private Vector3 lastAtkPos = Vector3.zero;
 
+    [SerializeField] private float hpMax = 5.0f;
+    private float hp;
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        hp = hpMax;
     }
 
     private void OnEnable()
@@ -72,14 +77,14 @@ public class Zombie : MonoBehaviour, IDamagable
 
     private void OnAttack()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 0.55f, LayerMask.GetMask("Hero"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + (Vector3.up * 0.5f), Vector2.left, 0.75f, LayerMask.GetMask("Player"));
         if (hit.collider != null && hit.collider.CompareTag("Hero"))
         {
             if (hit.collider.TryGetComponent<IDamagable>(out var obj))
             {
                 obj.Damaged(1.0f);
 
-                UIManager.Instance.TextEnable(lastAtkPos, Random.Range(1.0f, 2.0f).ToString("F1"));
+                UIManager.Instance.TextEnable(lastAtkPos, Random.Range(1.0f, 2.0f).ToString("F1"), Color.red);
             }
         }
 
@@ -103,6 +108,12 @@ public class Zombie : MonoBehaviour, IDamagable
 
     public void Damaged(float damaged)
     {
-        
+        hp -= damaged;
+
+        if (hp <= 0)
+        {
+            playerCollision = false;
+            gameObject.SetActive(false);
+        }
     }
 }

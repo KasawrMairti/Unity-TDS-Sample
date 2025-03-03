@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : GameManager<UIManager>
@@ -15,13 +16,13 @@ public class UIManager : GameManager<UIManager>
         damageIndicators = new List<DamageIndicator>();
 
         DamageIndicator obj = Instantiate(damageTextPrefab).GetComponent<DamageIndicator>();
-        obj.transform.parent = damageTextCanvas;
+        obj.transform.SetParent(damageTextCanvas);
         obj.transform.localScale = new(1.0f, 1.0f, 1.0f);
         damageIndicators.Add(obj);
         obj.gameObject.SetActive(false);
     }
 
-    public void TextEnable(Vector2 pos, string txt)
+    public void TextEnable(Vector2 pos, string txt, Color color)
     {
         bool enabled = false;
 
@@ -31,7 +32,7 @@ public class UIManager : GameManager<UIManager>
             {
                 indicator.gameObject.transform.position = pos;
                 indicator.gameObject.SetActive(true);
-                indicator.SetText(txt);
+                indicator.SetText(txt, color);
 
                 enabled = true;
                 break;
@@ -41,10 +42,10 @@ public class UIManager : GameManager<UIManager>
         if (enabled) return;
 
         DamageIndicator obj = Instantiate(damageTextPrefab).GetComponent<DamageIndicator>();
-        obj.transform.parent = damageTextCanvas;
+        obj.transform.SetParent(damageTextCanvas);
         obj.gameObject.transform.position = pos;
         obj.transform.localScale = new(1.0f, 1.0f, 1.0f);
-        obj.SetText(txt);
+        obj.SetText(txt, color);
         damageIndicators.Add(obj);
     }
 }

@@ -34,8 +34,9 @@ public class DamageIndicator : MonoBehaviour
         } 
     }
 
-    public void SetText(string text)
+    public void SetText(string text, Color color)
     {
         this.text.text = text;
+        this.text.color = color;
     }
 }
