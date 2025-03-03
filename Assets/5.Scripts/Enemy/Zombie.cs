@@ -9,14 +9,13 @@ public class Zombie : MonoBehaviour, IDamagable
 
     private Rigidbody2D rigidBody;
     private Animator animator;
+    private GameObject targetObj;
 
     // Zombie Status
     private bool zombieCollision = false;
     private float jumpCooltimeMax = 1.0f;
     private float jumpCooltime = 0.0f;
     private bool playerCollision = false;
-    private float attackCooltimeMax = 2.0f;
-    private float attackCooltime = 0.0f;
 
     private void Awake()
     {
@@ -37,8 +36,11 @@ public class Zombie : MonoBehaviour, IDamagable
 
     private void FixedUpdate()
     {
-        Move();
+        animator.SetBool("IsAttacking", playerCollision);
 
+        if (playerCollision) return;
+
+        Move();
         Jump();
     }
 
@@ -67,17 +69,29 @@ public class Zombie : MonoBehaviour, IDamagable
         }
     }
 
+    private void OnAttack()
+    {
+        if (targetObj.TryGetComponent<IDamagable>(out var obj))
+        {
+            obj.Damaged(1.0f);
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Player")) playerCollision = true;
+        if (collision.transform.CompareTag("Hero"))
+        {
+            playerCollision = true;
+            targetObj = collision.gameObject;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Player")) playerCollision = false;
+        if (collision.transform.CompareTag("Hero")) playerCollision = false;
     }
 
-    public void Damaged()
+    public void Damaged(float damaged)
     {
         
     }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, IDamagable
         ObjectManager.Instance.SetPlayer(this);
     }
 
-    public void Damaged()
+    public void Damaged(float damaged)
     {
         
     }
